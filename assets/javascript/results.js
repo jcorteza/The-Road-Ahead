@@ -4,6 +4,11 @@ let googleLatLng;
 let directionsRequest;
 let directionsResults;
 let hotels = [];
+
+addressInput = sessionStorage.getItem("addressInput");
+entertainment = sessionStorage.getItem("entertainment");
+radiusMeters = sessionStorage.getItem("radiusMeters");
+
 const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
 const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 
