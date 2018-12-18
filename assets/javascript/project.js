@@ -27,13 +27,10 @@ $(document).ready(function () {
     event.preventDefault();
     // grab user input for address and stre in a variable
     addressInput = $("#question-address").val().trim().replace(/ /g, "+");
-    console.log("User addres input is " + addressInput);
     // grab user input for prefered entertainment and store to variable
     entertainment = $("#question-entertainment").val();
-    console.log(entertainment);
     // grab value from range slider 2) radius and save to a variable
     const radiusMiles = $("#question-range").val();
-    console.log("User radius input in miles is " + radiusMiles);
     // convert the user's input desired radius in miles to drive to distance in meters for use with the APIs
     radiusMeters = radiusMiles * 1609.344;
     console.log("Miles converted to meters is " + radiusMeters);
@@ -51,9 +48,6 @@ $(document).ready(function () {
 }); 
 
 function valdiateForm(address, entertainment) {
-  console.log("inside validate form.");
-  console.log(address);
-  console.log(entertainment);
   let valid;
   let addressValid;
   let entertainmentValid;

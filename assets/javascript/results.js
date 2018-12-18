@@ -7,8 +7,8 @@ let hotels = [];
 
 // set variables from session storage
 addressInput = sessionStorage.getItem("addressInput");
-let radiusMeters = sessionStorage.getItem("radiusMeters");
-let entertainment = sessionStorage.getItem("entertainment");
+radiusMeters = sessionStorage.getItem("radiusMeters");
+entertainment = sessionStorage.getItem("entertainment");
 const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
 const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 
