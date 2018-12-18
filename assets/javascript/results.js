@@ -73,17 +73,6 @@ function initMap() {
     const placesInfo = new google.maps.places.PlacesService(map);
     placesInfo.nearbySearch(request, callback);
     // initialize google directionsService and request data
-    // const directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood&key=${httpKey}`
-    $.ajax({
-        url: `${googleURL}${httpKey}`,
-        method: "GET"
-    }).then(function(response) {
-        console.log(response);
-        directionsRequest = new google.maps.DirectionsService();
-        directionsResults = new google.maps.DirectionsRenderer();
-        // display directions on the map
-        directionsResults.setMap(map);
-    });
 }
 
 // callback function for places info request
@@ -176,8 +165,20 @@ function getPlaceDetails(id, card) {
 // when the card button is clicked run the get directions function, passing through the destination variable from the card value attribute
 $(".btn-floating").on("click", function() {
     const destination = $(this).parent().parent()[0].attributes[2].value;
-    console.log(destination);
-    getDirections(destination);
+    // console.log(destination);
+    // getDirections(destination);
+    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${googleLatLng}=${destination}&key=${httpKey}`
+    $.ajax({
+        url: directionsURL,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response);
+        // directionsRequest = new google.maps.DirectionsService();
+        // directionsResults = new google.maps.DirectionsRenderer();
+        // display directions on the map
+        // directionsResults.setMap(map);
+        map.data.loadGeoJson(response);
+    });
 });
 
 //add list of hotels to page
