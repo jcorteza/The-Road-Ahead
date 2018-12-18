@@ -21,6 +21,9 @@ $(document).ready(function() {
         url: googleURL,
         method: "GET"
     }).then(function(response) {
+        console.log(response);
+        console.log(response.results[0]);
+        console.log(response.results[0].geometry);
         addLat = response.results[0].geometry.location.lat;
         addLng = response.results[0].geometry.location.lng;
         var locdata = [addLat, addLng];
