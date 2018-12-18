@@ -37,10 +37,6 @@ $(document).ready(function () {
 
     const valid = valdiateForm(addressInput, entertainment);
     if(valid) {
-      // sessionStorage.setItem("addressInput", addressInput);
-      // sessionStorage.setItem("entertainment", entertainment);
-      // sessionStorage.setItem("radiusMeters", radiusMeters);
-
       window.location.href = "results.html";
     }
   });
