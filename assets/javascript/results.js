@@ -167,7 +167,7 @@ $(".btn-floating").on("click", function() {
     const destination = $(this).parent().parent()[0].attributes[2].value;
     // console.log(destination);
     // getDirections(destination);
-    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${googleLatLng}=${destination}&key=${httpKey}`
+    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${googleLatLng}&destination=${destination}&key=${httpKey}`
     $.ajax({
         url: directionsURL,
         method: "GET"
@@ -177,7 +177,7 @@ $(".btn-floating").on("click", function() {
         // directionsResults = new google.maps.DirectionsRenderer();
         // display directions on the map
         // directionsResults.setMap(map);
-        map.data.loadGeoJson(response);
+        map.data.loadGeoJson(response)
     });
 });
 
