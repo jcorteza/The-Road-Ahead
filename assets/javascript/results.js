@@ -176,6 +176,7 @@ $(".btn-floating").on("click", function() {
         cors: true,
         contentType: "application/json",
         secure: true,
+        mimeType: "application/json",
         headers: {
             'Access-Control-Allow-Origin': '*',
         },
