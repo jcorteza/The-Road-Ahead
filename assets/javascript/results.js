@@ -1,7 +1,3 @@
-$(document).ready(function(){
-    $('.carousel').carousel();
-});
-  
 // global variable declaration for API specific data
 let map;
 let googleLatLng;
@@ -10,13 +6,14 @@ let directionsResults;
 let hotels = [];
 
 // set variables from session storage
-let addressInput = sessionStorage.getItem("addressInput");
+addressInput = sessionStorage.getItem("addressInput");
 let radiusMeters = sessionStorage.getItem("radiusMeters");
 let entertainment = sessionStorage.getItem("entertainment");
 const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
 const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 
 $(document).ready(function() {
+    $('.carousel').carousel();
     /* start Google API */
     var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=${ipKey}`;
     $.ajax({

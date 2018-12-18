@@ -5,13 +5,13 @@ $('.dropdown-trigger').dropdown();
 
 
 //global variable declaration for user related data
-var addressInput;
-var addLat;
-var addLng;
-var radiusMeters;
-var entertainment;
-var input;
-var options;
+let addressInput;
+let addLat;
+let addLng;
+let radiusMeters;
+let entertainment;
+let input;
+let options;
 
 //main javascript code
 $(document).ready(function () {
