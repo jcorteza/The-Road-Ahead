@@ -19,7 +19,6 @@ const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 $(document).ready(function() {
     /* start Google API */
     var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=`;
-    console.log(`${googleURL}${ipKey}`);
     $.ajax({
         url: `${googleURL}${ipKey}`,
         method: "GET"
@@ -77,10 +76,16 @@ function initMap() {
     const placesInfo = new google.maps.places.PlacesService(map);
     placesInfo.nearbySearch(request, callback);
     // initialize google directionsService and request data
-    directionsRequest = new google.maps.DirectionsService();
-    directionsResults = new google.maps.DirectionsRenderer();
-    // display directions on the map
-    directionsResults.setMap(map);
+    $.ajax({
+        url: `${googleURL}${http}`,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response);
+        directionsRequest = new google.maps.DirectionsService();
+        directionsResults = new google.maps.DirectionsRenderer();
+        // display directions on the map
+        directionsResults.setMap(map);
+    });
 }
 
 // callback function for places info request
