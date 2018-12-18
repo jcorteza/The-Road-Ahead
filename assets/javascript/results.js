@@ -5,10 +5,10 @@ let directionsRequest;
 let directionsResults;
 let hotels = [];
 
+// set variables from session storage
 addressInput = sessionStorage.getItem("addressInput");
-entertainment = sessionStorage.getItem("entertainment");
 radiusMeters = sessionStorage.getItem("radiusMeters");
-
+entertainment = sessionStorage.getItem("entertainment");
 const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
 const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 
@@ -72,6 +72,18 @@ function initMap() {
     // create new Google places object for the nearbySearch
     const placesInfo = new google.maps.places.PlacesService(map);
     placesInfo.nearbySearch(request, callback);
+    // initialize google directionsService and request data
+    // const directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood&key=${httpKey}`
+    $.ajax({
+        url: `${googleURL}${httpKey}`,
+        method: "GET"
+    }).then(function(response) {
+        console.log(response);
+        directionsRequest = new google.maps.DirectionsService();
+        directionsResults = new google.maps.DirectionsRenderer();
+        // display directions on the map
+        directionsResults.setMap(map);
+    });
 }
 
 // callback function for places info request
@@ -126,7 +138,7 @@ function getPlaceDetails(id, card) {
         if (status === googleStatus.OK) {
             console.log("The response contains a valid result.");
             // modify the results.html results cards based on the places details data
-            $(card).attr("data-placeID", place.place_id)
+            $(card).attr("value", place.place_id)
             let resultName = place.name;
             if(place.photos) {
                 let imgURL = place.photos[3].getUrl();
@@ -161,26 +173,11 @@ function getPlaceDetails(id, card) {
         }
     });
 }
-// when the card button is clicked run the get directions function, passing through the destination variable from the card attribute data-placeID
-// $(".btn-floating").on("click", function() {
-$("div.card").on("click", function() {
-    const destination = $(this).attr("data-placeID");
-    // console.log(destination);
-    // getDirections(destination);
-    // initialize google directionsService and request data
-    console.log(googleLatLng);
-    const directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${googleLatLng}=${destination}&key=${httpKey}`
-    $.ajax({
-        url: directionsURL,
-        method: "GET"
-    }).then(function(response) {
-        console.log(response);
-        // directionsRequest = new google.maps.DirectionsService();
-        // directionsResults = new google.maps.DirectionsRenderer();
-        directionsResults = response.routes.overview_polyline;
-        // display directions on the map
-        // directionsResults.setMap(map);
-    });
+// when the card button is clicked run the get directions function, passing through the destination variable from the card value attribute
+$(".btn-floating").on("click", function() {
+    const destination = $(this).parent().parent()[0].attributes[2].value;
+    console.log(destination);
+    getDirections(destination);
 });
 
 //add list of hotels to page
