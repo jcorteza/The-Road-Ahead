@@ -13,17 +13,17 @@ var hotels = [];
 var addressInput = sessionStorage.getItem("addressInput");
 var radiusMeters = sessionStorage.getItem("radiusMeters");
 var entertainment = sessionStorage.getItem("entertainment");
+const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
+const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 
 $(document).ready(function() {
     /* start Google API */
-    var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q`;
+    var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=`;
     $.ajax({
-        url: googleURL,
+        url: `${googleURL}${ipKey}`,
         method: "GET"
     }).then(function(response) {
         console.log(response);
-        console.log(response.results[0]);
-        console.log(response.results[0].geometry);
         addLat = response.results[0].geometry.location.lat;
         addLng = response.results[0].geometry.location.lng;
         var locdata = [addLat, addLng];
