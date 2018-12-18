@@ -6,9 +6,9 @@ let directionsResults;
 let hotels = [];
 
 // set variables from session storage
-addressInput = sessionStorage.getItem("addressInput");
-radiusMeters = sessionStorage.getItem("radiusMeters");
-entertainment = sessionStorage.getItem("entertainment");
+// addressInput = sessionStorage.getItem("addressInput");
+// radiusMeters = sessionStorage.getItem("radiusMeters");
+// entertainment = sessionStorage.getItem("entertainment");
 const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
 const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 
