@@ -3,24 +3,24 @@ $(document).ready(function(){
 });
   
 // global variable declaration for API specific data
-var map;
-var googleLatLng;
-var directionsRequest;
-var directionsResults;
-var hotels = [];
+let map;
+let googleLatLng;
+let directionsRequest;
+let directionsResults;
+let hotels = [];
 
 // set variables from session storage
-var addressInput = sessionStorage.getItem("addressInput");
-var radiusMeters = sessionStorage.getItem("radiusMeters");
-var entertainment = sessionStorage.getItem("entertainment");
+let addressInput = sessionStorage.getItem("addressInput");
+let radiusMeters = sessionStorage.getItem("radiusMeters");
+let entertainment = sessionStorage.getItem("entertainment");
 const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
 const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 
 $(document).ready(function() {
     /* start Google API */
-    var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=`;
+    var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=${ipKey}`;
     $.ajax({
-        url: `${googleURL}${ipKey}`,
+        url: googleURL,
         method: "GET"
     }).then(function(response) {
         console.log(response);
@@ -76,8 +76,9 @@ function initMap() {
     const placesInfo = new google.maps.places.PlacesService(map);
     placesInfo.nearbySearch(request, callback);
     // initialize google directionsService and request data
+    // const directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=Disneyland&destination=Universal+Studios+Hollywood&key=${httpKey}`
     $.ajax({
-        url: `${googleURL}${http}`,
+        url: `${googleURL}${httpKey}`,
         method: "GET"
     }).then(function(response) {
         console.log(response);
@@ -178,6 +179,7 @@ function getPlaceDetails(id, card) {
 // when the card button is clicked run the get directions function, passing through the destination variable from the card value attribute
 $(".btn-floating").on("click", function() {
     const destination = $(this).parent().parent()[0].attributes[2].value;
+    console.log(destination);
     getDirections(destination);
 });
 
