@@ -170,7 +170,8 @@ $(".btn-floating").on("click", function() {
     let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${googleLatLng}&destination=place_id:${destination}&key=${httpKey}`
     $.ajax({
         url: directionsURL,
-        method: "GET"
+        method: "GET",
+        dataType: "json"
     }).then(function(response) {
         console.log(response);
         // directionsRequest = new google.maps.DirectionsService();
