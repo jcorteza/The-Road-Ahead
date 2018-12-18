@@ -167,7 +167,7 @@ $(".btn-floating").on("click", function() {
     const destination = $(this).parent().parent()[0].attributes[2].value;
     // console.log(destination);
     // getDirections(destination);
-    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${googleLatLng}&destination=place_id:${destination}&key=${httpKey}`
+    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${googleLatLng}&destination=place_id:${destination}&key=${ipKey}`
     $.ajax({
         url: directionsURL,
         method: "GET",
