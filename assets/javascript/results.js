@@ -172,14 +172,27 @@ $(".btn-floating").on("click", function() {
     $.ajax({
         url: directionsURL,
         method: "GET",
-        dataType: "json"
-    }).then(function(response) {
-        console.log(response);
-        // directionsRequest = new google.maps.DirectionsService();
-        // directionsResults = new google.maps.DirectionsRenderer();
-        // display directions on the map
-        // directionsResults.setMap(map);
-        map.data.loadGeoJson(response)
+        dataType: "jsonp",
+        cors: true,
+        contentType: "application/json",
+        secure: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+        },
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+        },
+        success: function(response) {
+            console.log(response);
+            // directionsRequest = new google.maps.DirectionsService();
+            // directionsResults = new google.maps.DirectionsRenderer();
+            // display directions on the map
+            // directionsResults.setMap(map);
+            map.data.loadGeoJson(response)
+        },
+        error: function(err) {
+            console.log(err)
+        }
     });
 });
 
