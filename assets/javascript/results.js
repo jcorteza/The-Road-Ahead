@@ -19,6 +19,7 @@ const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
 $(document).ready(function() {
     /* start Google API */
     var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=`;
+    console.log(`${googleURL}${ipKey}`);
     $.ajax({
         url: `${googleURL}${ipKey}`,
         method: "GET"
