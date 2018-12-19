@@ -179,10 +179,10 @@ $(".btn-floating").on("click", function() {
         mimeType: "application/json",
         headers: {
             'Access-Control-Allow-Origin': '*',
+        },
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
         }
-        // beforeSend: function (xhr) {
-        //   xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
-        // }
     }).then(function(response) {
         const gglStatus = JSON.parse(response.status);
         if(status !== "OK") {
@@ -190,7 +190,7 @@ $(".btn-floating").on("click", function() {
         }
         console.log(`Status: ${gglStatus}`);
         console.log(`Status: ${JSON.parse(response.routes)}`);
-    });;
+    });
 });
 
 //add list of hotels to page
