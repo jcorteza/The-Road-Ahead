@@ -179,7 +179,7 @@ $(".btn-floating").on("click", function() {
         mimeType: "application/json",
         headers: {
             'Access-Control-Allow-Origin': '*',
-        },
+        }
         // beforeSend: function (xhr) {
         //   xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
         // }
