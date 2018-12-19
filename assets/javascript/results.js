@@ -172,7 +172,7 @@ $(".btn-floating").on("click", function() {
     $.ajax({
         url: directionsURL,
         method: "GET",
-        dataType: "json",
+        dataType: "jsonp",
         crossDomain: true,
         contentType: "application/json",
         secure: true,
@@ -189,7 +189,7 @@ $(".btn-floating").on("click", function() {
             // directionsResults = new google.maps.DirectionsRenderer();
             // display directions on the map
             // directionsResults.setMap(map);
-            map.data.loadGeoJson(response);
+            // map.data.loadGeoJson(response);
         },
         error: function(err) {
             console.log(JSON.stringify(err));
