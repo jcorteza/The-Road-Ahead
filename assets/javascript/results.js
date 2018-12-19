@@ -190,6 +190,9 @@ $(".btn-floating").on("click", function() {
             // display directions on the map
             // directionsResults.setMap(map);
             map.data.loadGeoJson(response);
+        },
+        error: function(err) {
+            console.log(JSON.parse(err));
         }
     });
 });
