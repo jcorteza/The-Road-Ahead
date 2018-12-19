@@ -172,7 +172,7 @@ $(".btn-floating").on("click", function() {
     $.ajax({
         url: directionsURL,
         method: "GET",
-        // dataType: "jsonp",
+        dataType: "jsonp",
         crossDomain: true,
         contentType: "application/json",
         secure: true,
@@ -182,19 +182,15 @@ $(".btn-floating").on("click", function() {
         },
         // beforeSend: function (xhr) {
         //   xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
-        // },
-        success: function(response) {
-            console.log(JSON.stringify(response));
-            // directionsRequest = new google.maps.DirectionsService();
-            // directionsResults = new google.maps.DirectionsRenderer();
-            // display directions on the map
-            // directionsResults.setMap(map);
-            // map.data.loadGeoJson(response);
-        },
-        error: function(err) {
-            console.log(JSON.stringify(err));
+        // }
+    }).then(function(response) {
+        const gglStatus = JSON.parse(response.status);
+        if(status !== "OK") {
+            return console.log(`Status: ${gglStatus}`);
         }
-    });
+        console.log(`Status: ${gglStatus}`);
+        console.log(`Status: ${JSON.parse(response.routes)}`);
+    });;
 });
 
 //add list of hotels to page
