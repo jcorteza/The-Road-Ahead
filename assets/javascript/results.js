@@ -172,7 +172,7 @@ $(".btn-floating").on("click", function() {
     $.ajax({
         url: directionsURL,
         method: "GET",
-        dataType: "json",
+        dataType: "jsonp",
         crossDomain: true,
         contentType: "application/json",
         secure: true,
