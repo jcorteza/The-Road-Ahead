@@ -180,8 +180,14 @@ $(".btn-floating").on("click", function() {
         headers: {
             'Access-Control-Allow-Origin': '*',
         },
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+        // beforeSend: function (xhr) {
+        //   xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+        // },
+        error: function(response) {
+            console.log(JSON.parse(response.status));
+        },
+        success: function(response) {
+            console.log("success");
         }
     }).then(function(response) {
         const gglStatus = JSON.parse(response.status);
