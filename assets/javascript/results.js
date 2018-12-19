@@ -184,15 +184,12 @@ $(".btn-floating").on("click", function() {
           xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
         },
         success: function(response) {
-            console.log(response);
+            console.log(JSON.parse(response));
             // directionsRequest = new google.maps.DirectionsService();
             // directionsResults = new google.maps.DirectionsRenderer();
             // display directions on the map
             // directionsResults.setMap(map);
-            map.data.loadGeoJson(response)
-        },
-        error: function(err) {
-            console.log(err)
+            map.data.loadGeoJson(response);
         }
     });
 });
