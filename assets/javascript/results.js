@@ -192,7 +192,7 @@ $(".btn-floating").on("click", function() {
             map.data.loadGeoJson(response);
         },
         error: function(err) {
-            console.log(JSON.parse(err));
+            console.log(JSON.stringify(err));
         }
     });
 });
