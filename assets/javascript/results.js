@@ -172,7 +172,7 @@ $(".btn-floating").on("click", function() {
     $.ajax({
         url: directionsURL,
         method: "GET",
-        dataType: "jsonp",
+        dataType: "json",
         crossDomain: true,
         contentType: "application/json",
         secure: true,
@@ -180,11 +180,11 @@ $(".btn-floating").on("click", function() {
         headers: {
             'Access-Control-Allow-Origin': '*',
         },
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
-        },
+        // beforeSend: function (xhr) {
+        //   xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+        // },
         success: function(response) {
-            console.log(JSON.parse(response));
+            console.log(JSON.stringify(response));
             // directionsRequest = new google.maps.DirectionsService();
             // directionsResults = new google.maps.DirectionsRenderer();
             // display directions on the map
