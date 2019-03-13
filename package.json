@@ -1,0 +1,29 @@
+{
+  "name": "road-ahead",
+  "version": "1.0.0",
+  "description": "This is the first project of UT Austin's Houston Coding Bootcamp. This application was made with indecisive travelers in mind, and assists them in finding destinations to visit on roadtrips.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcorteza/The-Road-Ahead.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcorteza/The-Road-Ahead/issues"
+  },
+  "homepage": "https://github.com/jcorteza/The-Road-Ahead#readme",
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
+  }
+}

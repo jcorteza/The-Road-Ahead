@@ -11,6 +11,7 @@ radiusMeters = sessionStorage.getItem("radiusMeters");
 entertainment = sessionStorage.getItem("entertainment");
 const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
 const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
+const unrestrictedKey = "AIzaSyCKl1V-1zJHfCZALiLXIm9nfwMZlajFYBs"
 
 $(document).ready(function() {
     $('.carousel').carousel();
@@ -24,6 +25,7 @@ $(document).ready(function() {
         addLat = response.results[0].geometry.location.lat;
         addLng = response.results[0].geometry.location.lng;
         var locdata = [addLat, addLng];
+        console.log(locdata);
         localStorage.setItem("locdata", JSON.stringify(locdata));
 
         /* start travel API */
@@ -165,9 +167,8 @@ function getPlaceDetails(id, card) {
 // when the card button is clicked run the get directions function, passing through the destination variable from the card value attribute
 $(".btn-floating").on("click", function() {
     const destination = $(this).parent().parent()[0].attributes[2].value;
-    // console.log(destination);
     // getDirections(destination);
-    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${addressInput}&destination=place_id:${destination}&key=${ipKey}`
+    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${addressInput}&destination=place_id:${destination}&key=${unrestrictedKey}`
     console.log(directionsURL);
     $.ajax({
         url: directionsURL,
@@ -177,26 +178,27 @@ $(".btn-floating").on("click", function() {
         contentType: "application/json",
         secure: true,
         mimeType: "application/json",
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-        },
-        // beforeSend: function (xhr) {
-        //   xhr.setRequestHeader ("Authorization", "Basic " + btoa(""));
+        // beforeSend: function(xhr) {
+        //     xhr.setRequestHeader('Access-Control-Allow-Origin', 'https://maps.googleapis.com/');
         // },
+        headers: {
+            "Access-Control-Allow-Origin":"https://maps.googleapis.com/",
+        },
         error: function(response) {
-            console.log(JSON.parse(response.status));
+            console.log(`Error: ${JSON.stringify(response)}`);
         },
         success: function(response) {
-            console.log("success");
+            console.log(`Success: ${JSON.stringify(response)}`);
         }
-    }).then(function(response) {
-        const gglStatus = JSON.parse(response.status);
-        if(status !== "OK") {
-            return console.log(`Status: ${gglStatus}`);
-        }
-        console.log(`Status: ${gglStatus}`);
-        console.log(`Status: ${JSON.parse(response.routes)}`);
     });
+    // }).then(function(response) {
+    //     const gglStatus = JSON.parse(response.status);
+    //     if(status !== "OK") {
+    //         return console.log(`Status: ${gglStatus}`);
+    //     }
+    //     console.log(`Status: ${gglStatus}`);
+    //     console.log(`Status: ${JSON.parse(response.routes)}`);
+    // });
 });
 
 //add list of hotels to page
