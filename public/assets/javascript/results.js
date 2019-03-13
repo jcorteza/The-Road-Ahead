@@ -3,47 +3,33 @@ let map;
 let googleLatLng;
 let directionsRequest;
 let directionsResults;
+let directionsService;
+let directionsDisplay;
 let hotels = [];
 
 // set variables from session storage
 addressInput = sessionStorage.getItem("addressInput");
 radiusMeters = sessionStorage.getItem("radiusMeters");
 entertainment = sessionStorage.getItem("entertainment");
-const ipKey = "AIzaSyBlRT6EF4BPQobKI9CgS9TwqOUdLqiSWYg";
-const httpKey = "AIzaSyCkWLplfERYd7MKirTiRwl9rhCzsPDVN8Q";
-const unrestrictedKey = "AIzaSyCKl1V-1zJHfCZALiLXIm9nfwMZlajFYBs"
 
 $(document).ready(function() {
     $('.carousel').carousel();
-    /* start Google API */
-    var googleURL = `https://maps.googleapis.com/maps/api/geocode/json?address=${addressInput}&country=US&key=${ipKey}`;
     $.ajax({
-        url: googleURL,
-        method: "GET"
-    }).then(function(response) {
-        console.log(response);
-        addLat = response.results[0].geometry.location.lat;
-        addLng = response.results[0].geometry.location.lng;
-        var locdata = [addLat, addLng];
-        console.log(locdata);
-        localStorage.setItem("locdata", JSON.stringify(locdata));
-
-        /* start travel API */
-        //query for list of hotels
-        var travelURL = `https://api.sandbox.amadeus.com/v1.2/hotels/search-circle?apikey=nG40G2MNyhpYFWNBKWFpW83hKIUnrkHO&latitude=${addLat}&longitude=${addLng}&radius=42&number_of_results=5&check_in=2018-12-15&check_out=2018-12-16`;
-        $.ajax({
-            url: travelURL,
-            method: "GET"
-        }).then(function(response){
-            hotels = response.results;
-            console.log("HOTELS:::");
-            console.log(hotels);
-            console.log(window.location);
-            addHotelList();
-        });
-    /* Contintue Google Maps API */
-    }).then(function() {
-        initMap();
+        url: "/request",
+        method: "POST",
+        data: {
+            address: addressInput
+        },
+        error: function(response) {
+            console.log(`Error: ${JSON.stringify(response)}`);
+        },
+        success: function(response) {
+            addLat = response.geometry.location.lat;
+            addLng = response.geometry.location.lng;
+            var locdata = [addLat, addLng];
+            localStorage.setItem("locdata", JSON.stringify(locdata));
+            initMap();
+        }
     });
 });
 
@@ -52,6 +38,8 @@ $(document).ready(function() {
 function initMap() {
     // latitude and longitude converted to a google map coordinate
     googleLatLng = new google.maps.LatLng(addLat, addLng);
+    directionsService = new google.maps.DirectionsService();
+    directionsDisplay = new google.maps.DirectionsRenderer();
     map = new google.maps.Map(document.getElementById("map"), {
         center: googleLatLng,
         zoom: 12,
@@ -74,6 +62,7 @@ function initMap() {
     // create new Google places object for the nearbySearch
     const placesInfo = new google.maps.places.PlacesService(map);
     placesInfo.nearbySearch(request, callback);
+    directionsDisplay.setMap(map);
     // initialize google directionsService and request data
 }
 
@@ -81,13 +70,10 @@ function initMap() {
 function callback(result, status) {
     const googleStatus = google.maps.places.PlacesServiceStatus;
     if (status === googleStatus.OK) {
-        console.log("The response contains a valid result.");
-        console.log(result);
         // cycle through 3 of the google place results
         for (i = 0; i < 3; i++) {
             // store the place id in id variable for use in getPlaceDetails funciton
             const id = result[i].place_id;
-            console.log(id);
             getPlaceDetails(id, `#result${i}`);
         }
     }
@@ -127,9 +113,8 @@ function getPlaceDetails(id, card) {
         // console.log("inside callback function for getPlaceDetails");
         const googleStatus = google.maps.places.PlacesServiceStatus;
         if (status === googleStatus.OK) {
-            console.log("The response contains a valid result.");
             // modify the results.html results cards based on the places details data
-            $(card).attr("value", place.place_id)
+            $(card).attr("value", place.formatted_address)
             let resultName = place.name;
             if(place.photos) {
                 let imgURL = place.photos[3].getUrl();
@@ -167,83 +152,24 @@ function getPlaceDetails(id, card) {
 // when the card button is clicked run the get directions function, passing through the destination variable from the card value attribute
 $(".btn-floating").on("click", function() {
     const destination = $(this).parent().parent()[0].attributes[2].value;
-    // getDirections(destination);
-    let directionsURL = `https://maps.googleapis.com/maps/api/directions/json?origin=${addressInput}&destination=place_id:${destination}&key=${unrestrictedKey}`
-    console.log(directionsURL);
-    $.ajax({
-        url: directionsURL,
-        method: "GET",
-        dataType: "json",
-        crossDomain: true,
-        contentType: "application/json",
-        secure: true,
-        mimeType: "application/json",
-        // beforeSend: function(xhr) {
-        //     xhr.setRequestHeader('Access-Control-Allow-Origin', 'https://maps.googleapis.com/');
-        // },
-        headers: {
-            "Access-Control-Allow-Origin":"https://maps.googleapis.com/",
-        },
-        error: function(response) {
-            console.log(`Error: ${JSON.stringify(response)}`);
-        },
-        success: function(response) {
-            console.log(`Success: ${JSON.stringify(response)}`);
-        }
-    });
-    // }).then(function(response) {
-    //     const gglStatus = JSON.parse(response.status);
-    //     if(status !== "OK") {
-    //         return console.log(`Status: ${gglStatus}`);
-    //     }
-    //     console.log(`Status: ${gglStatus}`);
-    //     console.log(`Status: ${JSON.parse(response.routes)}`);
-    // });
+    getDirections(destination);
 });
 
-//add list of hotels to page
-function addHotelList(){
-    for(var i = 0; i < hotels.length; i++){
-        var hotel = hotels[i];
-        var name = hotel.property_name;
-        var addressline = hotel.address.line1;
-        var city = hotel.address.city;
-        var state = hotel.address.region;
-        var rating = "No Rating found";
-        if(!hotel.awards[0] === undefined){
-
-            rating = hotel.awards[0].provider +": "+hotel.awards[0].rating;
-        }
-        //var tablerow = $("<tr>").append($("<td>")).text(hotel.property_name)
-        //tablerow.append($("<td>")).text(addressline+" "+city+", "+state)
-        //tablerow.append($("<td>")).text(rating);
-        $("#hotel-list").append(`<tr class="hotel-table-row">
-        <td>${name}</td>
-        <td>${addressline} ${city}, ${state}</td>
-        <td>${rating}</td>
-        </td>`);
-    }
-}
 // getDirections function maps out the path from the user's start location to one of the potential places for their trip
 function getDirections(destination) {
-    // create lace google place object using the desitination's place id
-    const place = {
-        placeId: destination
-    }
     // create a request object using the user's start location and target destination
     const request = {
         origin: googleLatLng,
-        destination: place,
+        destination: destination,
         travelMode: "DRIVING",
         // waypoints: DirectionsWaypoint,
         // optimizeWaypoints: false,
         provideRouteAlternatives: false
     }
-    directionsRequest.route(request, function(result, status) {
+    directionsService.route(request, function(result, status) {
         if(status === "OK"){
-            console.log("Route found.");
             // display directions results on map
-            directionsResults.setDirections(result);
+            directionsDisplay.setDirections(result);
         }
         else if(status === "NOT_FOUND"){
             console.log("At least one of the locations specified in the request's origin, destination, or waypoints could not be geocoded.");
